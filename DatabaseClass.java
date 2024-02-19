@@ -1,6 +1,8 @@
 package OnlineShop;
 import java.io.IOException;
 import java.sql.*;
+import java.util.ArrayList;
+import java.util.List;
 
 public class DatabaseClass {
     public Connection connection;
@@ -46,5 +48,30 @@ public class DatabaseClass {
         if (this.connection != null && !this.connection.isClosed()) {
             this.connection.close();
         }
+    }
+    
+    public List<Book> getAllBook(){
+         List<Book> books = new ArrayList<>();
+
+        String query = "SELECT * FROM books";
+            try {
+                PreparedStatement preparedStatement = connection.prepareStatement(query);
+                 ResultSet resultSet = preparedStatement.executeQuery();
+                while (resultSet.next()) {
+                    String bookNo = resultSet.getString("book_no");
+                    String title = resultSet.getString("title");
+                    String author = resultSet.getString("author");
+                    Double price = resultSet.getDouble("price");
+
+                    // Assuming you have a Book class with appropriate constructor
+                    Book book = new Book(bookNo, title, author, price, null, null);
+                    books.add(book);
+                }
+            }
+            catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return books;
     }
 }
