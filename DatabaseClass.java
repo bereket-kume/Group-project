@@ -1,5 +1,4 @@
 package OnlineShop;
-import java.io.IOException;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -21,8 +20,8 @@ public class DatabaseClass {
         }
     }
 
-    public boolean isExist(String email, String password) throws SQLException {
-        String query = "SELECT * FROM customer WHERE email=? AND pasword=?";
+    public boolean isExist(String email, String password,String tableName) throws SQLException {
+        String query = "SELECT * FROM "+tableName+ " WHERE email=? AND pasword=?";
         try (PreparedStatement ps = this.connection.prepareStatement(query)) {
             ps.setString(1,email);
             ps.setString(2, password);
@@ -44,11 +43,6 @@ public class DatabaseClass {
         }
     }
 
-    public void closeConnection() throws SQLException {
-        if (this.connection != null && !this.connection.isClosed()) {
-            this.connection.close();
-        }
-    }
     public List<Book> getAllBook(){
          List<Book> books = new ArrayList<>();
 
@@ -65,7 +59,7 @@ public class DatabaseClass {
                       byte[] book_pdf = resultSet.getBytes("book_pdf");
                       String description=resultSet.getString("descriptions");
                     // Assuming you have a Book class with appropriate constructor
-                    Book book = new Book(bookNo, title, author, price, image, book_pdf);
+                    Book book = new Book(bookNo, title, author, price, image, book_pdf,description);
                     books.add(book);
                 }
             }
@@ -74,7 +68,6 @@ public class DatabaseClass {
             }
         return books;
     }
-    
   public void addBook(int bookNo,String title,String author,double price,byte[] image,byte[]pdf,String description){
        String query = "INSERT INTO books (book_no, title, author, price, book_image, book_pdf) VALUES (?, ?, ?, ?, ?, ?,?)";
             try{
@@ -85,18 +78,18 @@ public class DatabaseClass {
                 preparedStatement.setDouble(4, price);
                 preparedStatement.setBytes(5, image);
                 preparedStatement.setBytes(6, pdf);
-                preparedStatement.setString(3, description);
+                preparedStatement.setString(7, description);
+                 preparedStatement.executeUpdate();
 
-                int rowsInserted = preparedStatement.executeUpdate();
-
-                if (rowsInserted > 0) {
-                    System.out.println("Book inserted successfully!");
-                } else {
-                    System.out.println("Failed to insert book.");
-                }
+             
             }
          catch (Exception e) {
             e.printStackTrace();
+        }
+    }
+  public void closeConnection() throws SQLException {
+        if (this.connection != null && !this.connection.isClosed()) {
+            this.connection.close();
         }
     }
   }
