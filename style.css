@@ -839,3 +839,14 @@ a:focus {
   cursor: pointer;
 }
 /*# sourceMappingURL=style.css.map */
+/* CSS for profile-box */
+body .profile-box {
+  position: fixed;
+  bottom: 10px;
+  right: 10px;
+  width: 100px;
+  background-color: #141313;
+  padding: 10px;
+  color: white !important;
+  border-radius: 100px;
+}
