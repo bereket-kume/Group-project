@@ -1,0 +1,30 @@
+/* listBook.css */
+
+/* Apply some basic styles to the table */
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 20px;
+}
+
+th, td {
+  padding: 8px;
+  text-align: left;
+  border-bottom: 1px solid #ddd;
+}
+
+/* Style the table header */
+thead th {
+  background-color: #f2f2f2;
+  font-weight: bold;
+}
+
+/* Style alternating rows */
+tbody tr:nth-child(even) {
+  background-color: #f9f9f9;
+}
+
+/* Apply hover effect to table rows */
+tbody tr:hover {
+  background-color: #f5f5f5;
+}
